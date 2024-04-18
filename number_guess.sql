@@ -101,19 +101,33 @@ ALTER TABLE ONLY public.users ALTER COLUMN user_id SET DEFAULT nextval('public.u
 -- Data for Name: games; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
+INSERT INTO public.games VALUES (6, 4, 8);
+INSERT INTO public.games VALUES (8, 0, NULL);
+INSERT INTO public.games VALUES (7, 3, 10);
+INSERT INTO public.games VALUES (10, 2, 210);
+INSERT INTO public.games VALUES (9, 5, 295);
+INSERT INTO public.games VALUES (12, 2, 600);
+INSERT INTO public.games VALUES (11, 5, 249);
 
 
 --
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
+INSERT INTO public.users VALUES (6, 'emafina');
+INSERT INTO public.users VALUES (7, 'opsite');
+INSERT INTO public.users VALUES (8, 'ospite');
+INSERT INTO public.users VALUES (9, 'user_1713438060132');
+INSERT INTO public.users VALUES (10, 'user_1713438060131');
+INSERT INTO public.users VALUES (11, 'user_1713438095325');
+INSERT INTO public.users VALUES (12, 'user_1713438095324');
 
 
 --
 -- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-SELECT pg_catalog.setval('public.users_user_id_seq', 1, false);
+SELECT pg_catalog.setval('public.users_user_id_seq', 12, true);
 
 
 --
