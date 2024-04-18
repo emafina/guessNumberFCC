@@ -16,17 +16,17 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-DROP DATABASE guessing;
+DROP DATABASE number_guess;
 --
--- Name: guessing; Type: DATABASE; Schema: -; Owner: freecodecamp
+-- Name: number_guess; Type: DATABASE; Schema: -; Owner: freecodecamp
 --
 
-CREATE DATABASE guessing WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'C.UTF-8' LC_CTYPE = 'C.UTF-8';
+CREATE DATABASE number_guess WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'C.UTF-8' LC_CTYPE = 'C.UTF-8';
 
 
-ALTER DATABASE guessing OWNER TO freecodecamp;
+ALTER DATABASE number_guess OWNER TO freecodecamp;
 
-\connect guessing
+\connect number_guess
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
