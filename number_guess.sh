@@ -18,38 +18,52 @@ LOGIN() {
 WELCOME() {
   DATA=$($PSQL "SELECT * FROM users LEFT JOIN games USING(user_id) WHERE user_id=$1")
   read ID BAR NAME BAR N_GAMES BAR BEST_GUESSES < <(echo $DATA)
-  if [[ $N_GAMES=0 ]]
+  if [[ $N_GAMES -eq 0 ]]
   then
     echo "Welcome, $NAME! It looks like this is your first time here."
   else
-    echo "Welcome back, $NAME! You have played $N_GAMES, and your best game took $BEST_GUESSES guesses."
+    echo "Welcome back, $NAME! You have played $N_GAMES games, and your best game took $BEST_GUESSES guesses."
   fi
+}
+
+ASK_NUMBER() {
+  re='^[0-9]+$'
+  if [[ -z $1 ]]
+  then
+    echo "Guess the secret number between 1 and 1000:"
+  else
+    echo $1
+  fi
+  read GUESS
+  while ! [[ $GUESS =~ $re ]]
+  do
+    echo "That is not an integer, guess again:"
+    read GUESS
+  done
 }
 
 PLAY() {
   RN=$(( 1+RANDOM%1000 ))
-  echo "Guess the secret number between 1 and 1000:"
-  read GUESS
-  N=1
+  GN=1
+  ASK_NUMBER
   while [ $GUESS -ne $RN ]
   do
     if [ $GUESS -lt $RN ]
     then
-      echo "It's higher than that, guess again:"
+      ASK_NUMBER "It's higher than that, guess again:"
     else
-      echo "It's lower than that, guess again:"
+      ASK_NUMBER "It's lower than that, guess again:"
     fi
-    read GUESS
-    ((N++))
+    ((GN++))
   done
   # update statistics 
+  if [[ $N_GAMES -eq 0 || $GN -lt $BEST_GUESSES ]]
+  then
+    RESULT=$($PSQL "UPDATE games SET best_guesses=$GN WHERE user_id=$USER_ID")
+  fi
   ((N_GAMES++))
   RESULT=$($PSQL "UPDATE games SET n_games=$N_GAMES WHERE user_id=$USER_ID")
-  if [ $N -lt $BEST_GUESSES ]
-  then
-    RESULT=$($PSQL "UPDATE games SET best_guesses=$N WHERE user_id=$USER_ID")
-  fi
-  echo "You guessed it in $N tries. The secret number was $RN. Nice job!"
+  echo "You guessed it in $GN tries. The secret number was $RN. Nice job!"
 }
 
 LOGIN
